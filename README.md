@@ -1,6 +1,6 @@
-# 8 Puzzle Problem
+# Model Predictive Control
 
-This project solves the famous 8 Puzzle problem.
+This project uses Model Predictive Control (MPC) to solve control problems.
 
 ## Requirements
 
