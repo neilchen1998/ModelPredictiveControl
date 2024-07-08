@@ -15,13 +15,12 @@ ModelPredictiveControl::ModelPredictiveControl()
 
 }
 
-ModelPredictiveControl::ModelPredictiveControl(Eigen::MatrixXf A, Eigen::MatrixXf B, Eigen::MatrixXf P, Eigen::MatrixXf Q, Eigen::MatrixXf R, Eigen::VectorXf x0) : 
+ModelPredictiveControl::ModelPredictiveControl(Eigen::MatrixXf A, Eigen::MatrixXf B, Eigen::MatrixXf P, Eigen::MatrixXf Q, Eigen::MatrixXf R) :
     A(A),
     B(B),
     P(P),
     Q(Q),
-    R(R),
-    x0(x0)
+    R(R)
 {
     // A: N * N
     assert(A.cols() == A.rows());
@@ -55,7 +54,7 @@ ModelPredictiveControl::~ModelPredictiveControl()
 
 }
 
-Eigen::MatrixXf ModelPredictiveControl::FindOptimalControl()
+Eigen::MatrixXf ModelPredictiveControl::FindOptimalControl(Eigen::MatrixXf x0)
 {
     return - H.inverse() * F.transpose() * x0;
 }

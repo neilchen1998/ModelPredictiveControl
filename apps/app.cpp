@@ -27,9 +27,9 @@ int main()
     Eigen::MatrixXf R = Eigen::MatrixXf::Constant(M, M, 10);
     Eigen::MatrixXf x0 = Eigen::MatrixXf::Random(N, 1);
 
-    auto s = model_predictive_control::ModelPredictiveControl(A, B, P, Q, R, x0);
+    auto s = model_predictive_control::ModelPredictiveControl(A, B, P, Q, R);
 
-    std::cout << "Optimal control:\n" << s.FindOptimalControl() << std::endl;
+    std::cout << "Optimal control:\n" << s.FindOptimalControl(x0) << std::endl;
 
     return EXIT_SUCCESS;
 }

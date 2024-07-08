@@ -10,9 +10,9 @@ class ModelPredictiveControl
 {
 public:
     ModelPredictiveControl();
-    ModelPredictiveControl(Eigen::MatrixXf A, Eigen::MatrixXf B, Eigen::MatrixXf P, Eigen::MatrixXf Q, Eigen::MatrixXf R, Eigen::VectorXf x0);
+    ModelPredictiveControl(Eigen::MatrixXf A, Eigen::MatrixXf B, Eigen::MatrixXf P, Eigen::MatrixXf Q, Eigen::MatrixXf R);
     ~ModelPredictiveControl();
-    Eigen::MatrixXf FindOptimalControl();
+    Eigen::MatrixXf FindOptimalControl(Eigen::MatrixXf x0);
 
 private:
     void CalculateMatrixSBar();
@@ -30,8 +30,6 @@ private:
 
     /// @brief horizen
     int K;
-
-    Eigen::MatrixXf x0;
 
     // input matrices
     Eigen::MatrixXf A;
