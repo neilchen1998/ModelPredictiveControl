@@ -1,4 +1,4 @@
-file(GLOB MODELS_HEADER_LIST CONFIGURE_DEPENDS "${ModelPredictiveControl_SOURCE_DIR}/include/models/*.hpp")
+file(GLOB MODELS_HEADER_LIST CONFIGURE_DEPENDS "${ModelPredictiveControl_SOURCE_DIR}/include/controllers/*.hpp")
 
 add_library(model_library model_predictive_control.cc linear_quadratic_regulator.cc ${MODELS_HEADER_LIST})
 

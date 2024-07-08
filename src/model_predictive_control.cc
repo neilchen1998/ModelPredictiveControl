@@ -1,4 +1,4 @@
-#include <models/model_predictive_control.hpp>
+#include <controllers/model_predictive_control.hpp>
 
 #include <Eigen/Dense>
 
