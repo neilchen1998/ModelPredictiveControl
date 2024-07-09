@@ -30,6 +30,24 @@ models::MassSpringDamper::MassSpringDamper(Eigen::MatrixXf A, Eigen::MatrixXf B,
     assert(C.cols() == P);
 }
 
+Eigen::MatrixXf MassSpringDamper::Step()
+{
+    // increases time stamp
+    ++t;
+
+    // updates the state
+    x = A * x;
+
+    #if DEBUG
+        std::cout << "X:\n" << X << std::endl;
+    #endif
+
+    // updates the output
+    Eigen::MatrixXf y = C * x + D * u;
+
+    return y;
+}
+
 Eigen::MatrixXf MassSpringDamper::Step(Eigen::MatrixXf u)
 {
     // increases time stamp

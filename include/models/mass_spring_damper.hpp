@@ -13,6 +13,13 @@ public:
     MassSpringDamper(Eigen::MatrixXf A, Eigen::MatrixXf B, Eigen::MatrixXf C, Eigen::MatrixXf D, Eigen::MatrixXf x0);
     ~MassSpringDamper() = default;
 
+    /// @brief Step once without any input
+    /// @return The output of the system
+    Eigen::MatrixXf Step();
+
+    /// @brief Step once with a given input
+    /// @param u The given input
+    /// @return The output of the system
     Eigen::MatrixXf Step(Eigen::MatrixXf u);
 
 private:
