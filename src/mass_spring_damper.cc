@@ -43,7 +43,7 @@ Eigen::MatrixXf MassSpringDamper::Step()
     #endif
 
     // updates the output
-    Eigen::MatrixXf y = C * x + D * u;
+    Eigen::MatrixXf y = C * x;
 
     return y;
 }
