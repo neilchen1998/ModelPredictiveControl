@@ -10,7 +10,8 @@
 namespace models
 {
 
-models::MassSpringDamper::MassSpringDamper()
+models::MassSpringDamper::MassSpringDamper() :
+    t(0)
 {
 }
 
@@ -25,12 +26,15 @@ models::MassSpringDamper::MassSpringDamper(Eigen::MatrixXf A, Eigen::MatrixXf B,
     N = A.rows();
     assert(A.cols() == N);
     M = B.rows();
-    assert(B.cols() == N);
+    assert(B.cols() == 1);
     P = C.rows();
-    assert(C.cols() == P);
+    assert(C.cols() == N);
+
+    assert(x.rows() == N);
+    assert(x.cols() == 1);
 }
 
-Eigen::MatrixXf MassSpringDamper::Step()
+void MassSpringDamper::Step()
 {
     // increases time stamp
     ++t;
@@ -39,31 +43,39 @@ Eigen::MatrixXf MassSpringDamper::Step()
     x = A * x;
 
     #if DEBUG
-        std::cout << "X:\n" << X << std::endl;
+        std::cout << "x:\n" << x << std::endl;
     #endif
 
     // updates the output
-    Eigen::MatrixXf y = C * x;
-
-    return y;
+    y = C * x;
 }
 
-Eigen::MatrixXf MassSpringDamper::Step(Eigen::MatrixXf u)
+void MassSpringDamper::Step(float u)
 {
     // increases time stamp
     ++t;
+
+    #if DEBUG
+        std::cout << "B * u:\n" << B * u << std::endl;
+    #endif
+
+    #if DEBUG
+        std::cout << "A * x:\n" << A * x << std::endl;
+    #endif
 
     // updates the state
     x = A * x + B * u;
 
     #if DEBUG
-        std::cout << "X:\n" << X << std::endl;
+        std::cout << "x:\n" << x << std::endl;
     #endif
 
     // updates the output
-    Eigen::MatrixXf y = C * x + D * u;
-
-    return y;
+    y = C * x + D * u;
 }
 
+Eigen::MatrixXf MassSpringDamper::Output() const
+{
+    return y;
+}
 } // models

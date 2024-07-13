@@ -15,14 +15,17 @@ public:
 
     /// @brief Step once without any input
     /// @return The output of the system
-    Eigen::MatrixXf Step();
+    void Step();
 
     /// @brief Step once with a given input
     /// @param u The given input
     /// @return The output of the system
-    Eigen::MatrixXf Step(Eigen::MatrixXf u);
+    void Step(float u);
 
-private:
+    Eigen::MatrixXf Output() const;
+
+// variables need to be protected so the tests can access them
+protected:
 
     int N;
     int M;
@@ -34,6 +37,7 @@ private:
     Eigen::MatrixXf D;
 
     Eigen::MatrixXf x;
+    Eigen::MatrixXf y;
 
     /// @brief the current time
     unsigned int t;
