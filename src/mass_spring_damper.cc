@@ -42,10 +42,6 @@ void MassSpringDamper::Step()
     // updates the state
     x = A * x;
 
-    #if DEBUG
-        std::cout << "x:\n" << x << std::endl;
-    #endif
-
     // updates the output
     y = C * x;
 }
@@ -55,20 +51,8 @@ void MassSpringDamper::Step(float u)
     // increases time stamp
     ++t;
 
-    #if DEBUG
-        std::cout << "B * u:\n" << B * u << std::endl;
-    #endif
-
-    #if DEBUG
-        std::cout << "A * x:\n" << A * x << std::endl;
-    #endif
-
     // updates the state
     x = A * x + B * u;
-
-    #if DEBUG
-        std::cout << "x:\n" << x << std::endl;
-    #endif
 
     // updates the output
     y = C * x + D * u;

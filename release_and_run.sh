@@ -7,4 +7,4 @@ cmake -S . -B build -DCMAKE_BUILD_TYPE=Release &&
 cmake --build build &&
 
 # runs the binary
-./build/apps/app -h
+./build/apps/app
