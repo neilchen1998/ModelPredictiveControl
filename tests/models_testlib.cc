@@ -19,12 +19,23 @@ namespace models
     template <typename T>
     inline Eigen::MatrixXd GetMatrixAd(const T& adaptor)
     {
-        struct Printer : T // to access protected Adaptor::t (protected inheritance)
+        struct Printer : T
         {
             Eigen::MatrixXd GetMatrixAd() const { return this->Ad; }
         };
 
         return static_cast<const Printer&>(adaptor).GetMatrixAd();
+    }
+
+    template <typename T>
+    inline Eigen::MatrixXd GetMatrixBd(const T& adaptor)
+    {
+        struct Printer : T
+        {
+            Eigen::MatrixXd GetMatrixBd() const { return this->Bd; }
+        };
+
+        return static_cast<const Printer&>(adaptor).GetMatrixBd();
     }
 }
 
@@ -55,6 +66,7 @@ TEST_CASE( "MassSpringDamper 1", "[main]" )
 
     SECTION("Convert Matrix A to Matrix Ad", "[constructor]")
     {
+        // NOTE: Matrix Ad is a 4x4 matrix in this case
         Eigen::Matrix4d A_true;
         A_true << 8.36383509e-01,  4.55860203e-02,  1.06633966e-01,  2.93243405e-03,
             -6.54465964,  8.23440811e-01,  4.26535862,  1.17297362e-01,
@@ -63,7 +75,21 @@ TEST_CASE( "MassSpringDamper 1", "[main]" )
 
         const auto Ad = models::GetMatrixAd(msd);
 
-        REQUIRE( Ad.isApprox(A_true, 0.05) );
+        REQUIRE( Ad.isApprox(A_true, T) );
+    }
+
+    SECTION("Convert Matrix B to Matrix Bd", "[constructor]")
+    {
+        // NOTE: Matrix Bd is a vector in this case
+        Eigen::Vector4d B_true;
+        B_true <<  3.66554257e-06,
+            1.46621703e-04,
+            5.87153273e-05,
+            2.34861309e-03;
+
+        const auto Bd = models::GetMatrixBd(msd);
+
+        REQUIRE( Bd.isApprox(B_true, T) );
     }
 
     SECTION("Time Stamp", "[functionality]")
