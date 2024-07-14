@@ -22,6 +22,8 @@ public:
     /// @return The output of the system
     void Step(float u);
 
+    /// @brief Get the output of the system at the current time step
+    /// @return The output of the system
     Eigen::MatrixXd Output() const;
 
 // variables need to be protected so the tests can access them

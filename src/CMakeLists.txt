@@ -9,7 +9,7 @@ target_include_directories(model_library PUBLIC ../include)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
   target_link_libraries(controller_library PRIVATE Eigen3::Eigen fmt::fmt)
-  target_link_libraries(model_library PRIVATE Eigen3::Eigen fmt::fmt)
+  target_link_libraries(model_library PRIVATE Eigen3::Eigen)
 elseif(CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "Test")
   target_link_libraries(controller_library PRIVATE Eigen3::Eigen)
   target_link_libraries(model_library PRIVATE Eigen3::Eigen)
