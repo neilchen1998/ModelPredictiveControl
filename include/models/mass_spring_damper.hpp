@@ -10,7 +10,7 @@ class MassSpringDamper
 {
 public:
     MassSpringDamper();
-    MassSpringDamper(Eigen::MatrixXf A, Eigen::MatrixXf B, Eigen::MatrixXf C, Eigen::MatrixXf D, Eigen::MatrixXf x0);
+    MassSpringDamper(Eigen::MatrixXd A, Eigen::MatrixXd B, Eigen::MatrixXd C, Eigen::MatrixXd D, Eigen::MatrixXd x0, float T);
     ~MassSpringDamper() = default;
 
     /// @brief Step once without any input
@@ -22,7 +22,7 @@ public:
     /// @return The output of the system
     void Step(float u);
 
-    Eigen::MatrixXf Output() const;
+    Eigen::MatrixXd Output() const;
 
 // variables need to be protected so the tests can access them
 protected:
@@ -31,13 +31,16 @@ protected:
     int M;
     int P;
 
-    Eigen::MatrixXf A;
-    Eigen::MatrixXf B;
-    Eigen::MatrixXf C;
-    Eigen::MatrixXf D;
+    // the discrete matrices of A & B are different from their continous counterparts
+    Eigen::MatrixXd Ad;
+    Eigen::MatrixXd Bd;
 
-    Eigen::MatrixXf x;
-    Eigen::MatrixXf y;
+    // the discrete matrices of C & D are identical to their continous counterparts
+    Eigen::MatrixXd C;
+    Eigen::MatrixXd D;
+
+    Eigen::MatrixXd x;
+    Eigen::MatrixXd y;
 
     /// @brief the current time
     unsigned int t;

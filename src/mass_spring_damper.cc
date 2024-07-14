@@ -1,6 +1,7 @@
 #include <models/mass_spring_damper.hpp>
 
 #include <Eigen/Dense>
+#include <unsupported/Eigen/MatrixFunctions>
 
 #if DEBUG
     #include <iostream>
@@ -15,9 +16,7 @@ models::MassSpringDamper::MassSpringDamper() :
 {
 }
 
-models::MassSpringDamper::MassSpringDamper(Eigen::MatrixXf A, Eigen::MatrixXf B, Eigen::MatrixXf C, Eigen::MatrixXf D, Eigen::MatrixXf x0) :
-    A(A),
-    B(B),
+models::MassSpringDamper::MassSpringDamper(Eigen::MatrixXd A, Eigen::MatrixXd B, Eigen::MatrixXd C, Eigen::MatrixXd D, Eigen::MatrixXd x0, float T) :
     C(C),
     D(D),
     x(x0),
@@ -32,6 +31,25 @@ models::MassSpringDamper::MassSpringDamper(Eigen::MatrixXf A, Eigen::MatrixXf B,
 
     assert(x.rows() == N);
     assert(x.cols() == 1);
+
+    #if DEBUG
+        std::cout << "Matrix A:\n" << A << std::endl;
+        std::cout << "Matrix B:\n" << B << std::endl;
+    #endif
+
+    // transforms from continuous to discrete
+    // Ad = phi(T)
+    Ad = (A * T).exp();
+
+    // Bd = (Ad - I) * A^-1 * B
+    // Bd = A^-1 * (Ad - I) * B
+    Bd = (Ad - Eigen::MatrixXd::Identity(N, N)) * A.inverse() * B;
+    // Bd = A.inverse() * (Ad - Eigen::MatrixXd::Identity(N, N))* B;
+
+    #if DEBUG
+        std::cout << "Matrix Ad:\n" << Ad << std::endl;
+        std::cout << "Matrix Bd:\n" << Bd << std::endl;
+    #endif
 }
 
 void MassSpringDamper::Step()
@@ -40,7 +58,7 @@ void MassSpringDamper::Step()
     ++t;
 
     // updates the state
-    x = A * x;
+    x = Ad * x;
 
     // updates the output
     y = C * x;
@@ -52,13 +70,13 @@ void MassSpringDamper::Step(float u)
     ++t;
 
     // updates the state
-    x = A * x + B * u;
+    x = Ad * x + Bd * u;
 
     // updates the output
     y = C * x + D * u;
 }
 
-Eigen::MatrixXf MassSpringDamper::Output() const
+Eigen::MatrixXd MassSpringDamper::Output() const
 {
     return y;
 }
