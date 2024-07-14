@@ -8,6 +8,3 @@ cmake --build build &&
 
 # runs all the tests
 cmake --build build --target test
-
-# runs by tag
-cd build && ctest -R terminal
