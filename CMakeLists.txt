@@ -67,7 +67,7 @@ find_package(Eigen3 REQUIRED)
 FetchContent_Declare(
   fmtlib
   GIT_REPOSITORY https://github.com/fmtlib/fmt.git
-  GIT_TAG 5.3.0)
+  GIT_TAG 11.0.0)
 
 FetchContent_MakeAvailable(fmtlib)
 
